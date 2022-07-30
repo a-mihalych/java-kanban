@@ -1,10 +1,10 @@
-import java.util.ArrayList;
+package model;
 
 public class SubTask extends Task {
 
     private int idEpic;
 
-    public SubTask(String title, ArrayList<String> description) {
+    public SubTask(String title, String description) {
         super(title, description);
     }
 

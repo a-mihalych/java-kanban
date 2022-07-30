@@ -1,3 +1,10 @@
+package controller;
+
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,9 +37,9 @@ public class Manager {
     public void deleteSubTasks() {
         subTasks.clear();
         // пустые epics - статус NEW; очиска у epic списка id подзадач
-        for (int idEpic : epics.keySet()) {
-            epics.get(idEpic).setStatus(Status.NEW);
-            epics.get(idEpic).getIdSubTasks().clear();
+        for (Epic epic : epics.values()) {
+            epic.setStatus(Status.NEW);
+            epic.getIdSubTasks().clear();
         }
     }
 
@@ -56,18 +63,20 @@ public class Manager {
 
     // (2.4)Создание. Сам объект должен передаваться в качестве параметра.
     public void creationTask(Task task) {
-        task.setId(id++);
+        task.setId(getNextId());
         tasks.put(task.getId(), task);
     }
 
-    public int creationSubTask(SubTask subTask) {
-        subTask.setId(id++);
+    public void creationSubTask(SubTask subTask, int idEpic) {
+        subTask.setId(getNextId());
+        subTask.setIdEpic(idEpic);
+        epics.get(idEpic).addIdSubTask(subTask.getId());
         subTasks.put(subTask.getId(), subTask);
-        return subTask.getId();
+        changeStatus(idEpic);
     }
 
     public int creationEpic(Epic epic) {
-        epic.setId(id++);
+        epic.setId(getNextId());
         epics.put(epic.getId(), epic);
         changeStatus(epic.getId());
         return epic.getId();
@@ -120,26 +129,30 @@ public class Manager {
     // (4.2)проверка и изменение статуса эпика
     private void changeStatus(int id) {
         Status status;
-        ArrayList<SubTask> SubTasksEpic = getSubTasksEpic(id);
-        if (SubTasksEpic.size() > 1) {
+        ArrayList<SubTask> subTasksEpic = getSubTasksEpic(id);
+        if (subTasksEpic.size() > 1) {
             Status statusOld;
-            status = SubTasksEpic.get(0).getStatus();
+            status = subTasksEpic.get(0).getStatus();
             int i = 1;
             do {
                 statusOld = status;
-                status = SubTasksEpic.get(i).getStatus();
+                status = subTasksEpic.get(i).getStatus();
                 i++;
-            } while ((SubTasksEpic.size() > i) && (status != Status.IN_PROGRESS) && (status == statusOld));
+            } while ((subTasksEpic.size() > i) && (status != Status.IN_PROGRESS) && (status == statusOld));
             if (status != statusOld) {
                 status = Status.IN_PROGRESS;
             }
         } else {
-            if (SubTasksEpic.isEmpty()) {
+            if (subTasksEpic.isEmpty()) {
                 status = Status.NEW;
             } else {
-                status = SubTasksEpic.get(0).getStatus();
+                status = subTasksEpic.get(0).getStatus();
             }
         }
         epics.get(id).setStatus(status);
+    }
+
+    private int getNextId() {
+        return id++;
     }
 }

@@ -1,13 +1,13 @@
-import java.util.ArrayList;
+package model;
 
 public class Task {
 
     private int id;
     private String title;
-    private ArrayList<String> description;
+    private String description;
     private Status status;
 
-    public Task(String title, ArrayList<String> description) {
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
@@ -25,7 +25,7 @@ public class Task {
         return title;
     }
 
-    public ArrayList<String> getDescription() {
+    public String getDescription() {
         return description;
     }
 

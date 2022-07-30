@@ -1,4 +1,8 @@
-import java.util.ArrayList;
+import controller.Manager;
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
 
 public class Main {
 
@@ -6,53 +10,24 @@ public class Main {
         Manager manager = new Manager();
 
         // Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
-        ArrayList<String> description = new ArrayList<>();
-        description.add("Набрать воды");
-        description.add("Полить герань");
-        description.add("Полить кактус");
-        Task task1 = new Task("Полить комнатные расстения", description);
+        Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань");
         manager.creationTask(task1);
 
-        description = new ArrayList<>();
-        description.add("Помыть ложку");
-        description.add("Помыть чашку");
-        description.add("Помыть тарелку");
-        Task task2 = new Task("Помыть посуду", description);
+
+        Task task2 = new Task("Помыть посуду", "Вымыть тарелку, ложку и чашку");
         manager.creationTask(task2);
 
-        description = new ArrayList<>();
-        description.add("Изучить теорию");
-        description.add("Выполнить финальную работу");
-        Epic epic1 = new Epic("Закончить спринт", description);
-        description = new ArrayList<>();
-        description.add("Прочитать конспекты");
-        description.add("Сделать практические задания");
-        SubTask subTask1 = new SubTask(epic1.getDescription().get(0), description);
-        int id = manager.creationSubTask(subTask1);
-        epic1.addIdSubTask(id);
-        description = new ArrayList<>();
-        description.add("Изучить задание");
-        description.add("Написать код");
-        description.add("Сдать работу");
-        SubTask subTask2 = new SubTask(epic1.getDescription().get(1), description);
-        id = manager.creationSubTask(subTask2);
-        epic1.addIdSubTask(id);
-        id = manager.creationEpic(epic1);
-        subTask1.setIdEpic(id);
-        subTask2.setIdEpic(id);
+        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию, выполнить и сдать финальную работу");
+        SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию, сделать задания в тренажёре");
+        SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу, сдать её");
+        int idEpic = manager.creationEpic(epic1);
+        manager.creationSubTask(subTask1, idEpic);
+        manager.creationSubTask(subTask2, idEpic);
 
-        description = new ArrayList<>();
-        description.add("Сходить за продуктами");
-        Epic epic2 = new Epic("Сходить за покупками", description);
-        description = new ArrayList<>();
-        description.add("Дойти до продуктового магазина");
-        description.add("Выбрать продукты");
-        description.add("Вернуться домой");
-        SubTask subTask3 = new SubTask(epic2.getDescription().get(0), description);
-        id = manager.creationSubTask(subTask3);
-        epic2.addIdSubTask(id);
-        id = manager.creationEpic(epic2);
-        subTask3.setIdEpic(id);
+        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
+        SubTask subTask3 = new SubTask("Сходить за продуктами", "Купить продукты");
+        idEpic = manager.creationEpic(epic2);
+        manager.creationSubTask(subTask3, idEpic);
 
         // Распечатайте списки эпиков, задач и подзадач, через System.out.println(..)
         System.out.println(manager.getEpics());

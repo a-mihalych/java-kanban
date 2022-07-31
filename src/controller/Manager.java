@@ -62,12 +62,12 @@ public class Manager {
     }
 
     // (2.4)Создание. Сам объект должен передаваться в качестве параметра.
-    public void creationTask(Task task) {
+    public void createTask(Task task) {
         task.setId(getNextId());
         tasks.put(task.getId(), task);
     }
 
-    public void creationSubTask(SubTask subTask, int idEpic) {
+    public void createSubTask(SubTask subTask, int idEpic) {
         subTask.setId(getNextId());
         subTask.setIdEpic(idEpic);
         epics.get(idEpic).addIdSubTask(subTask.getId());
@@ -75,7 +75,7 @@ public class Manager {
         changeStatus(idEpic);
     }
 
-    public int creationEpic(Epic epic) {
+    public int createEpic(Epic epic) {
         epic.setId(getNextId());
         epics.put(epic.getId(), epic);
         changeStatus(epic.getId());
@@ -111,14 +111,14 @@ public class Manager {
 
     public void deleteEpic(int id) {
         // удаление подзадач удаляемого epic
-        for (SubTask subTask : getSubTasksEpic(id)) {
+        for (SubTask subTask : getSubTasksByEpicId(id)) {
             subTasks.remove(subTask.getId());
         }
         epics.remove(id);
     }
 
     // (3.1)Получение списка всех подзадач определённого эпика
-    private ArrayList<SubTask> getSubTasksEpic(int id) {
+    private ArrayList<SubTask> getSubTasksByEpicId(int id) {
         ArrayList<SubTask> subTasksEpic = new ArrayList<>();
         for (int idSubTask : epics.get(id).getIdSubTasks()) {
             subTasksEpic.add(subTasks.get(idSubTask));
@@ -129,7 +129,7 @@ public class Manager {
     // (4.2)проверка и изменение статуса эпика
     private void changeStatus(int id) {
         Status status;
-        ArrayList<SubTask> subTasksEpic = getSubTasksEpic(id);
+        ArrayList<SubTask> subTasksEpic = getSubTasksByEpicId(id);
         if (subTasksEpic.size() > 1) {
             Status statusOld;
             status = subTasksEpic.get(0).getStatus();

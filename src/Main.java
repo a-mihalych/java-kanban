@@ -11,23 +11,23 @@ public class Main {
 
         // Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
         Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань");
-        manager.creationTask(task1);
+        manager.createTask(task1);
 
 
         Task task2 = new Task("Помыть посуду", "Вымыть тарелку, ложку и чашку");
-        manager.creationTask(task2);
+        manager.createTask(task2);
 
         Epic epic1 = new Epic("Закончить спринт", "Изучить теорию, выполнить и сдать финальную работу");
         SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию, сделать задания в тренажёре");
         SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу, сдать её");
-        int idEpic = manager.creationEpic(epic1);
-        manager.creationSubTask(subTask1, idEpic);
-        manager.creationSubTask(subTask2, idEpic);
+        int idEpic = manager.createEpic(epic1);
+        manager.createSubTask(subTask1, idEpic);
+        manager.createSubTask(subTask2, idEpic);
 
         Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
         SubTask subTask3 = new SubTask("Сходить за продуктами", "Купить продукты");
-        idEpic = manager.creationEpic(epic2);
-        manager.creationSubTask(subTask3, idEpic);
+        idEpic = manager.createEpic(epic2);
+        manager.createSubTask(subTask3, idEpic);
 
         // Распечатайте списки эпиков, задач и подзадач, через System.out.println(..)
         System.out.println(manager.getEpics());

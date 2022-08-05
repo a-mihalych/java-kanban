@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager {
 
     private int id = 1;
     private HashMap<Integer, Task> tasks = new HashMap<>();
@@ -17,23 +17,28 @@ public class Manager {
     private HashMap<Integer, Epic> epics = new HashMap<>();
 
     // (2.1)Получение списка всех задач/подзадач/эпиков
+    @Override
     public Collection<Task> getTasks() {
         return tasks.values();
     }
 
+    @Override
     public Collection<SubTask> getSubTasks() {
         return subTasks.values();
     }
 
+    @Override
     public Collection<Epic> getEpics() {
         return epics.values();
     }
 
     // (2.2)Удаление всех задач/подзадач/эпиков
+    @Override
     public void deleteTasks() {
         tasks.clear();
     }
 
+    @Override
     public void deleteSubTasks() {
         subTasks.clear();
         // пустые epics - статус NEW; очиска у epic списка id подзадач
@@ -43,30 +48,36 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteEpics() {
         epics.clear();
         subTasks.clear();
     }
 
     // (2.3)Получение по идентификатору задач/подзадач/эпиков
+    @Override
     public Task getTask(int id) {
         return tasks.get(id);
     }
 
+    @Override
     public SubTask getSubTask(int id) {
         return subTasks.get(id);
     }
 
+    @Override
     public Epic getEpic(int id) {
         return epics.get(id);
     }
 
     // (2.4)Создание. Сам объект должен передаваться в качестве параметра.
+    @Override
     public void createTask(Task task) {
         task.setId(getNextId());
         tasks.put(task.getId(), task);
     }
 
+    @Override
     public void createSubTask(SubTask subTask, int idEpic) {
         subTask.setId(getNextId());
         subTask.setIdEpic(idEpic);
@@ -75,6 +86,7 @@ public class Manager {
         changeStatus(idEpic);
     }
 
+    @Override
     public int createEpic(Epic epic) {
         epic.setId(getNextId());
         epics.put(epic.getId(), epic);
@@ -83,25 +95,30 @@ public class Manager {
     }
 
     // (2.5)Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
+    @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
     }
 
+    @Override
     public void updateSubTask(SubTask subTask) {
         subTasks.put(subTask.getId(), subTask);
         changeStatus(subTask.getIdEpic());
     }
 
+    @Override
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
         changeStatus(epic.getId());
     }
 
     // (2.6)Удаление по идентификатору.
+    @Override
     public void deleteTask(int id) {
         tasks.remove(id);
     }
 
+    @Override
     public void deleteSubTask(int id) {
         int idEpic = subTasks.get(id).getIdEpic();
         epics.get(idEpic).getIdSubTasks().remove(id);
@@ -109,6 +126,7 @@ public class Manager {
         changeStatus(idEpic);
     }
 
+    @Override
     public void deleteEpic(int id) {
         // удаление подзадач удаляемого epic
         for (SubTask subTask : getSubTasksByEpicId(id)) {

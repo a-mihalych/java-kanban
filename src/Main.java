@@ -1,4 +1,5 @@
 import controller.InMemoryTaskManager;
+import controller.Managers;
 import controller.TaskManager;
 import model.Epic;
 import model.Status;
@@ -8,7 +9,8 @@ import model.Task;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = new InMemoryTaskManager();
+//        TaskManager manager = new InMemoryTaskManager();
+        TaskManager manager = Managers.getDefault();
 
         // Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
         Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань");

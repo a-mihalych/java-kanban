@@ -8,13 +8,17 @@ import model.Task;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
+    private final int MAX_VIEVS = 10;
     private int id = 1;
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
+    private Map<Integer, Task> tasks = new HashMap<>();
+    private Map<Integer, SubTask> subTasks = new HashMap<>();
+    private Map<Integer, Epic> epics = new HashMap<>();
+    private List<Task> views = new ArrayList<>();
 
     // (2.1)Получение списка всех задач/подзадач/эпиков
     @Override
@@ -57,16 +61,19 @@ public class InMemoryTaskManager implements TaskManager {
     // (2.3)Получение по идентификатору задач/подзадач/эпиков
     @Override
     public Task getTask(int id) {
+        addView(tasks.get(id));
         return tasks.get(id);
     }
 
     @Override
     public SubTask getSubTask(int id) {
+        addView(subTasks.get(id));
         return subTasks.get(id);
     }
 
     @Override
     public Epic getEpic(int id) {
+        addView(epics.get(id));
         return epics.get(id);
     }
 
@@ -135,9 +142,14 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(id);
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return views;
+    }
+
     // (3.1)Получение списка всех подзадач определённого эпика
-    private ArrayList<SubTask> getSubTasksByEpicId(int id) {
-        ArrayList<SubTask> subTasksEpic = new ArrayList<>();
+    private List<SubTask> getSubTasksByEpicId(int id) {
+        List<SubTask> subTasksEpic = new ArrayList<>();
         for (int idSubTask : epics.get(id).getIdSubTasks()) {
             subTasksEpic.add(subTasks.get(idSubTask));
         }
@@ -147,7 +159,7 @@ public class InMemoryTaskManager implements TaskManager {
     // (4.2)проверка и изменение статуса эпика
     private void changeStatus(int id) {
         Status status;
-        ArrayList<SubTask> subTasksEpic = getSubTasksByEpicId(id);
+        List<SubTask> subTasksEpic = getSubTasksByEpicId(id);
         if (subTasksEpic.size() > 1) {
             Status statusOld;
             status = subTasksEpic.get(0).getStatus();
@@ -172,5 +184,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int getNextId() {
         return id++;
+    }
+
+    private void addView(Task task) {
+        if (views.size() == MAX_VIEVS) {
+            views.remove(0);
+        }
+        views.add(task);
     }
 }

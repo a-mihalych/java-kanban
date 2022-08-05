@@ -5,6 +5,7 @@ import model.SubTask;
 import model.Task;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -37,4 +38,6 @@ public interface TaskManager {
     void deleteTask(int id);
     void deleteSubTask(int id);
     void deleteEpic(int id);
+
+    List<Task> getHistory();
 }

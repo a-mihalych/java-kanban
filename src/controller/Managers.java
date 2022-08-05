@@ -2,7 +2,14 @@ package controller;
 
 public class Managers {
 
-    public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+    private static InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    private static InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+
+    public static HistoryManager getDefaultHistory() {
+        return inMemoryHistoryManager;
+    }
+
+    public static TaskManager getDefaultTask() {
+        return inMemoryTaskManager;
     }
 }

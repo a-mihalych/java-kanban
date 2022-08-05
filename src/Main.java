@@ -9,7 +9,6 @@ import model.Task;
 public class Main {
 
     public static void main(String[] args) {
-//        TaskManager manager = new InMemoryTaskManager();
         TaskManager manager = Managers.getDefault();
 
         // Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
@@ -56,5 +55,14 @@ public class Main {
         System.out.println(manager.getEpics());
         System.out.println(manager.getTasks());
         System.out.println(manager.getSubTasks());
+
+        // Тестирование истории просмотров
+        System.out.println(manager.getHistory());
+        manager.getTask(task2.getId());
+        System.out.println(manager.getHistory());
+        manager.getEpic(epic1.getId());
+        System.out.println(manager.getHistory());
+        manager.getSubTask(subTask2.getId());
+        System.out.println(manager.getHistory());
     }
 }

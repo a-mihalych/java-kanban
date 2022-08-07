@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager{
 
-    private final int MAX_HISTORY_VIEVS = 10;
+    private static final int MAX_HISTORY_VIEVS = 10;
     private List<Task> historyViews  = new ArrayList<>();
 
     @Override

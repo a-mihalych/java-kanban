@@ -18,7 +18,6 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, SubTask> subTasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
 
-    // (2.1)Получение списка всех задач/подзадач/эпиков
     @Override
     public Collection<Task> getTasks() {
         return tasks.values();
@@ -34,7 +33,6 @@ public class InMemoryTaskManager implements TaskManager {
         return epics.values();
     }
 
-    // (2.2)Удаление всех задач/подзадач/эпиков
     @Override
     public void deleteTasks() {
         tasks.clear();
@@ -56,7 +54,6 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.clear();
     }
 
-    // (2.3)Получение по идентификатору задач/подзадач/эпиков
     @Override
     public Task getTask(int id) {
         Managers.getDefaultHistory().add(tasks.get(id));
@@ -75,7 +72,6 @@ public class InMemoryTaskManager implements TaskManager {
         return epics.get(id);
     }
 
-    // (2.4)Создание. Сам объект должен передаваться в качестве параметра.
     @Override
     public void createTask(Task task) {
         task.setId(getNextId());
@@ -99,7 +95,6 @@ public class InMemoryTaskManager implements TaskManager {
         return epic.getId();
     }
 
-    // (2.5)Обновление. Новая версия объекта с верным идентификатором передаётся в виде параметра.
     @Override
     public void updateTask(Task task) {
         tasks.put(task.getId(), task);
@@ -117,7 +112,6 @@ public class InMemoryTaskManager implements TaskManager {
         changeStatus(epic.getId());
     }
 
-    // (2.6)Удаление по идентификатору.
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
@@ -140,7 +134,6 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(id);
     }
 
-    // (3.1)Получение списка всех подзадач определённого эпика
     private List<SubTask> getSubTasksByEpicId(int id) {
         List<SubTask> subTasksEpic = new ArrayList<>();
         for (int idSubTask : epics.get(id).getIdSubTasks()) {
@@ -149,7 +142,6 @@ public class InMemoryTaskManager implements TaskManager {
         return subTasksEpic;
     }
 
-    // (4.2)проверка и изменение статуса эпика
     private void changeStatus(int id) {
         Status status;
         List<SubTask> subTasksEpic = getSubTasksByEpicId(id);

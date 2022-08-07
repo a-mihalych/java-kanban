@@ -12,7 +12,6 @@ public class Main {
         TaskManager taskManager = Managers.getDefaultTask();
         HistoryManager historyManager = Managers.getDefaultHistory();
 
-        // Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
         Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань");
         taskManager.createTask(task1);
 
@@ -31,13 +30,10 @@ public class Main {
         idEpic = taskManager.createEpic(epic2);
         taskManager.createSubTask(subTask3, idEpic);
 
-        // Распечатайте списки эпиков, задач и подзадач, через System.out.println(..)
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getSubTasks());
 
-        // Измените статусы созданных объектов, распечатайте.
-        // Проверьте, что статус задачи и подзадачи сохранился, а статус эпика рассчитался по статусам подзадач.
         task1.setStatus(Status.IN_PROGRESS);
         taskManager.updateTask(task1);
         task2.setStatus(Status.DONE);
@@ -50,14 +46,12 @@ public class Main {
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getSubTasks());
 
-        // И, наконец, попробуйте удалить одну из задач и один из эпиков.
         taskManager.deleteTask(task1.getId());
         taskManager.deleteEpic(epic2.getId());
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getSubTasks());
 
-        // Тестирование истории просмотров
         System.out.println(historyManager.getHistory());
         taskManager.getTask(task2.getId());
         System.out.println(historyManager.getHistory());

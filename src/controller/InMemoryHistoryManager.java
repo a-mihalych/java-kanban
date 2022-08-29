@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private Map<Integer, Node> historyViews = new HashMap<>();
-    private Node head = null;
-    private Node tail = null;
+    private Map<Integer, Node<Task>> historyViews = new HashMap<>();
+    private Node<Task> head = null;
+    private Node<Task> tail = null;
 
     @Override
     public void add(Task task) {
@@ -36,7 +36,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private Node<Task> linkLast(Task task) {
-        Node node = new Node(tail, null, task);
+        Node<Task> node = new Node<>(tail, null, task);
         if (historyViews.isEmpty()) {
             head = node;
         } else {

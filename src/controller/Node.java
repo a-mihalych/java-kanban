@@ -12,7 +12,7 @@ public class Node<T> {
         this.date = date;
     }
 
-    public Node getPrev() {
+    public Node<T> getPrev() {
         return prev;
     }
 
@@ -20,7 +20,7 @@ public class Node<T> {
         this.prev = prev;
     }
 
-    public Node getNext() {
+    public Node<T> getNext() {
         return next;
     }
 

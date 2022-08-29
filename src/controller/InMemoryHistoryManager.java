@@ -3,23 +3,69 @@ package controller;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
 
-    private static final int MAX_HISTORY_VIEVS = 10;
-    private List<Task> historyViews  = new ArrayList<>();
+    private Map<Integer, Node> historyViews = new HashMap<>();
+    private Node head = null;
+    private Node tail = null;
 
     @Override
     public void add(Task task) {
-        if (historyViews.size() == MAX_HISTORY_VIEVS) {
-            historyViews.remove(0);
+        Node<Task> node = linkLast(task);
+        if (historyViews.containsKey(task.getId())) {
+            remove(task.getId());
         }
-        historyViews.add(task);
+        historyViews.put(task.getId(), node);
     }
 
     @Override
     public List<Task> getHistory() {
-        return historyViews;
+        return getTasks();
+    }
+
+    @Override
+    public void remove(int id) {
+        if (historyViews.containsKey(id)) {
+            removeNode(historyViews.get(id));
+            historyViews.remove(id);
+        }
+    }
+
+    private Node<Task> linkLast(Task task) {
+        Node node = new Node(tail, null, task);
+        if (historyViews.isEmpty()) {
+            head = node;
+        } else {
+            tail.setNext(node);
+        }
+        tail = node;
+        return node;
+    }
+
+    private List<Task> getTasks() {
+        List<Task> tasks = new ArrayList<>();
+        Node<Task> node = tail;
+        while (node != null) {
+            tasks.add(node.getDate());
+            node = node.getPrev();
+        }
+        return tasks;
+    }
+
+    private void removeNode(Node node) {
+        if (node.getPrev() != null) {
+            node.getPrev().setNext(node.getNext());
+        } else {
+            head = node.getNext();
+        }
+        if (node.getNext() != null) {
+            node.getNext().setPrev(node.getPrev());
+        } else {
+            tail = node.getPrev();
+        }
     }
 }

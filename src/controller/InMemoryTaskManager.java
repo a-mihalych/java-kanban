@@ -5,11 +5,7 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -35,13 +31,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTasks() {
+        deleteHistory(tasks.keySet());
         tasks.clear();
     }
 
     @Override
     public void deleteSubTasks() {
+        deleteHistory(subTasks.keySet());
         subTasks.clear();
-        // пустые epics - статус NEW; очиска у epic списка id подзадач
         for (Epic epic : epics.values()) {
             epic.setStatus(Status.NEW);
             epic.getIdSubTasks().clear();
@@ -50,6 +47,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpics() {
+        deleteHistory(epics.keySet());
+        deleteHistory(subTasks.keySet());
         epics.clear();
         subTasks.clear();
     }
@@ -115,6 +114,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        Managers.getDefaultHistory().remove(id);
     }
 
     @Override
@@ -123,15 +123,17 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(idEpic).getIdSubTasks().remove(id);
         subTasks.remove(id);
         changeStatus(idEpic);
+        Managers.getDefaultHistory().remove(id);
     }
 
     @Override
     public void deleteEpic(int id) {
-        // удаление подзадач удаляемого epic
         for (SubTask subTask : getSubTasksByEpicId(id)) {
             subTasks.remove(subTask.getId());
+            Managers.getDefaultHistory().remove(subTask.getId());
         }
         epics.remove(id);
+        Managers.getDefaultHistory().remove(id);
     }
 
     private List<SubTask> getSubTasksByEpicId(int id) {
@@ -169,5 +171,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int getNextId() {
         return id++;
+    }
+
+    private void deleteHistory(Set<Integer> keys) {
+        for (int key : keys) {
+            Managers.getDefaultHistory().remove(key);
+        }
     }
 }

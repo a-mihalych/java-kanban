@@ -14,6 +14,34 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, SubTask> subTasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
 
+    public void restoreId() {
+        int maxIdTask = 0;
+        int maxIdSubTask = 0;
+        int maxIdEpic = 0;
+        if (!tasks.isEmpty()) {
+            maxIdTask = Collections.max(tasks.keySet());
+        }
+        if (!subTasks.isEmpty()) {
+            maxIdSubTask = Collections.max(subTasks.keySet());
+        }
+        if (!epics.isEmpty()) {
+            maxIdEpic = Collections.max(epics.keySet());
+        }
+        id = Math.max(maxIdTask, Math.max(maxIdSubTask, maxIdEpic)) + 1;
+    }
+
+    public void setTasks(Map<Integer, Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void setSubTasks(Map<Integer, SubTask> subTasks) {
+        this.subTasks = subTasks;
+    }
+
+    public void setEpics(Map<Integer, Epic> epics) {
+        this.epics = epics;
+    }
+
     @Override
     public Collection<Task> getTasks() {
         return tasks.values();

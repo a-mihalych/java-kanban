@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
@@ -72,11 +70,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     private static List<Integer> historyFromString(String value) {
-        String[] lineHistoryViews = value.split(SPLITTER);
-        List<Integer> historyViews = new ArrayList<>();
-        for (int i = lineHistoryViews.length - 1; i >= 0; i--) {
-            historyViews.add(Integer.parseInt(lineHistoryViews[i]));
-        }
+        List<Integer> historyViews = Arrays.stream(value.split(SPLITTER))
+                                    .map(Integer::parseInt).collect(Collectors.toList());
+        Collections.reverse(historyViews);
         return historyViews;
     }
 

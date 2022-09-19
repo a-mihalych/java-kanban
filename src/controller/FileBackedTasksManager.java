@@ -90,23 +90,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     Map<Integer, Epic> epics = new HashMap<>();
                     Map<Integer, Task> tasks = new HashMap<>();
                     Map<Integer, SubTask> subTasks = new HashMap<>();
-                    Map<Integer, Task> tasksAll = new HashMap<>();
                     Task task;
-                    Epic epic;
-                    SubTask subTask;
                     while (i < fileLines.length && !fileLines[i].isBlank()) {
                         task = fileBackedTasksManager.fromString(fileLines[i]);
-                        tasksAll.put(task.getId(), task);
                         if (task instanceof Epic) {
-                            epic = (Epic) task;
-                            epics.put(epic.getId(), epic);
+                            epics.put(task.getId(), (Epic) task);
                         } else {
                             if (task instanceof SubTask) {
-                                subTask = (SubTask) task;
-                                subTasks.put(subTask.getId(), subTask);
-                                epic = epics.get(subTask.getIdEpic());
-                                epic.addIdSubTask(subTask.getId());
-                                epics.put(epic.getId(), epic);
+                                subTasks.put(task.getId(), (SubTask) task);
+                                epics.get(((SubTask) task).getIdEpic()).addIdSubTask(task.getId());
                             } else {
                                 tasks.put(task.getId(), task);
                             }
@@ -119,7 +111,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     if (fileLines.length == (i + 2)) {
                         List<Integer> historyViews = historyFromString(fileLines[i + 1]);
                         for (int id : historyViews) {
-                            historyManager.add(tasksAll.get(id));
+                            if (epics.containsKey(id)) {
+                                historyManager.add(epics.get(id));
+                            } else {
+                                if (subTasks.containsKey(id)) {
+                                    historyManager.add(subTasks.get(id));
+                                } else {
+                                    historyManager.add(tasks.get(id));
+                                }
+                            }
                         }
                         fileBackedTasksManager.save();
                     }
@@ -186,8 +186,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 task = new Epic(id, name, description, status, new ArrayList<Integer>());
                 break;
             case SUBTASK:
-                int idEpic = Integer.parseInt(taskLines[5]);
-                task = new SubTask(id, name, description, status, idEpic);
+                task = new SubTask(id, name, description, status, Integer.parseInt(taskLines[5]));
                 break;
         }
         return task;

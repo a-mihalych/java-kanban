@@ -93,15 +93,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     Task task;
                     while (i < fileLines.length && !fileLines[i].isBlank()) {
                         task = fileBackedTasksManager.fromString(fileLines[i]);
-                        if (task instanceof Epic) {
-                            epics.put(task.getId(), (Epic) task);
-                        } else {
-                            if (task instanceof SubTask) {
+                        switch (TypeTask.valueOf(task.getClass().getSimpleName().toUpperCase())) {
+                            case EPIC:
+                                epics.put(task.getId(), (Epic) task);
+                                break;
+                            case SUBTASK:
                                 subTasks.put(task.getId(), (SubTask) task);
                                 epics.get(((SubTask) task).getIdEpic()).addIdSubTask(task.getId());
-                            } else {
+                                break;
+                            case TASK:
                                 tasks.put(task.getId(), task);
-                            }
+                                break;
                         }
                         i++;
                     }
@@ -153,17 +155,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     private String toString(Task task) {
-        TypeTask typeTask;
+        TypeTask typeTask = null;
         String idEpic = "";
-        if (task instanceof Epic) {
-            typeTask = TypeTask.EPIC;
-        } else {
-            if (task instanceof SubTask) {
+        switch (TypeTask.valueOf(task.getClass().getSimpleName().toUpperCase())) {
+            case EPIC:
+                typeTask = TypeTask.EPIC;
+                break;
+            case SUBTASK:
                 typeTask = TypeTask.SUBTASK;
                 idEpic += ((SubTask) task).getIdEpic();
-            } else {
+                break;
+            case TASK:
                 typeTask = TypeTask.TASK;
-            }
+                break;
         }
         return String.format("%d,%s,%s,%s,%s,%s\n",
                              task.getId(), typeTask, task.getTitle(),

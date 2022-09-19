@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
 
+    private static final String SPLITTER = ",";
     private File file;
 
     private FileBackedTasksManager(File file) {
@@ -64,14 +65,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         List<Task> historyViews = manager.getHistory();
         StringBuilder lineViews = new StringBuilder("\n");
         for (Task task : historyViews) {
-            lineViews.append(task.getId() + ",");
+            lineViews.append(task.getId() + SPLITTER);
         }
         lineViews.setLength(lineViews.length() - 1);
         return lineViews.toString();
     }
 
     private static List<Integer> historyFromString(String value) {
-        String[] lineHistoryViews = value.split(",");
+        String[] lineHistoryViews = value.split(SPLITTER);
         List<Integer> historyViews = new ArrayList<>();
         for (int i = lineHistoryViews.length - 1; i >= 0; i--) {
             historyViews.add(Integer.parseInt(lineHistoryViews[i]));
@@ -175,7 +176,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     private Task fromString(String value) {
         Task task = null;
-        String[] taskLines = value.split(",");
+        String[] taskLines = value.split(SPLITTER);
         int id = Integer.parseInt(taskLines[0]);
         TypeTask type = TypeTask.valueOf(taskLines[1]);
         String name = taskLines[2];

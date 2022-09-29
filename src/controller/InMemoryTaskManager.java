@@ -5,6 +5,7 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -195,6 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         epics.get(id).setStatus(status);
+        calculatingEndTimeOfEpic(id);
     }
 
     private int getNextId() {
@@ -205,5 +207,22 @@ public class InMemoryTaskManager implements TaskManager {
         for (int key : keys) {
             Managers.getDefaultHistory().remove(key);
         }
+    }
+
+    private void calculatingEndTimeOfEpic(int id) {
+        List<SubTask> subTasksEpic = getSubTasksByEpicId(id);
+        LocalDateTime startEpic = null;
+        LocalDateTime endEpic = null;
+        for (SubTask subTask : subTasksEpic) {
+            if((startEpic != null) && (subTask.getStartTime().isBefore(startEpic))) {
+                startEpic = subTask.getStartTime();
+            }
+            if((endEpic != null) && (subTask.getEndTime().isAfter(startEpic))) {
+                endEpic = subTask.getEndTime();
+            }
+        }
+        Epic epic = epics.get(id);
+        epic.setEndTime(endEpic);
+        epic.setStartTime(startEpic);
     }
 }

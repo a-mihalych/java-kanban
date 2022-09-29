@@ -1,18 +1,21 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
 
     private ArrayList<Integer> idSubTasks;
+    private LocalDateTime endTime;
 
-    public Epic(String title, String description) {
-        super(title, description);
+    public Epic(String title, String description, LocalDateTime startTime, Duration duration) {
+        super(title, description, startTime, duration);
         this.idSubTasks = new ArrayList<>();
     }
 
-    public Epic(int id, String title, String description, Status status, ArrayList<Integer> idSubTasks) {
-        super(id, title, description, status);
+    public Epic(int id, String title, String description, Status status, LocalDateTime startTime, Duration duration, ArrayList<Integer> idSubTasks) {
+        super(id, title, description, status, startTime, duration);
         this.idSubTasks = idSubTasks;
     }
 
@@ -22,6 +25,11 @@ public class Epic extends Task {
 
     public void addIdSubTask(int idSubTask) {
         idSubTasks.add(idSubTask);
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
     @Override

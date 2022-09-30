@@ -41,20 +41,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         fileBackedTasksManager.createTask(task2);
 
         Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу",
-                LocalDateTime.now(), Duration.ofSeconds(99999999));
+                              LocalDateTime.now(), Duration.ofSeconds(60000));
         SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию и сделать задания в тренажёре",
-                LocalDateTime.now(), Duration.ofSeconds(9999999));
+                                       LocalDateTime.now(), Duration.ofSeconds(6000));
         SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу",
-                LocalDateTime.now(), Duration.ofSeconds(9999999));
+                                       LocalDateTime.now().plus(Duration.ofSeconds(10000)), Duration.ofSeconds(12000));
         SubTask subTask3 = new SubTask("Сдать финальную работу", "Сдать финальную работу",
-                LocalDateTime.now(), Duration.ofSeconds(9999999));
+                                       LocalDateTime.now().plus(Duration.ofSeconds(25000)), Duration.ofSeconds(9000));
         int idEpic = fileBackedTasksManager.createEpic(epic1);
         fileBackedTasksManager.createSubTask(subTask1, idEpic);
         fileBackedTasksManager.createSubTask(subTask2, idEpic);
         fileBackedTasksManager.createSubTask(subTask3, idEpic);
 
         Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин",
-                LocalDateTime.now(), Duration.ofSeconds(9999));
+                              LocalDateTime.now(), Duration.ofSeconds(3000));
         fileBackedTasksManager.createEpic(epic2);
 
         fileBackedTasksManager.getTask(task2.getId());

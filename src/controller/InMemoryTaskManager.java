@@ -211,18 +211,20 @@ public class InMemoryTaskManager implements TaskManager {
 
     private void calculatingEndTimeOfEpic(int id) {
         List<SubTask> subTasksEpic = getSubTasksByEpicId(id);
-        LocalDateTime startEpic = null;
-        LocalDateTime endEpic = null;
-        for (SubTask subTask : subTasksEpic) {
-            if((startEpic != null) && (subTask.getStartTime().isBefore(startEpic))) {
-                startEpic = subTask.getStartTime();
+        if (subTasksEpic.size() > 0) {
+            LocalDateTime startEpic = subTasksEpic.get(0).getStartTime();
+            LocalDateTime endEpic = subTasksEpic.get(0).getEndTime();
+            for (SubTask subTask : subTasksEpic) {
+                if(subTask.getStartTime().isBefore(startEpic)) {
+                    startEpic = subTask.getStartTime();
+                }
+                if(subTask.getEndTime().isAfter(startEpic)) {
+                    endEpic = subTask.getEndTime();
+                }
             }
-            if((endEpic != null) && (subTask.getEndTime().isAfter(startEpic))) {
-                endEpic = subTask.getEndTime();
-            }
+            Epic epic = epics.get(id);
+            epic.setEndTime(endEpic);
+            epic.setStartTime(startEpic);
         }
-        Epic epic = epics.get(id);
-        epic.setEndTime(endEpic);
-        epic.setStartTime(startEpic);
     }
 }

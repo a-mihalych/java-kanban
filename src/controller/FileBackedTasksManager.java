@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,24 +32,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
         FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(pathFile);
 
-        Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань");
+        Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань",
+                              LocalDateTime.now(), Duration.ofSeconds(99));
         fileBackedTasksManager.createTask(task1);
 
-        Task task2 = new Task("Помыть посуду", "Вымыть тарелку ложку чашку");
+        Task task2 = new Task("Помыть посуду", "Вымыть тарелку ложку чашку",
+                              LocalDateTime.now(), Duration.ofSeconds(999));
         fileBackedTasksManager.createTask(task2);
 
-        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу");
-        SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию и сделать задания в тренажёре");
-        SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу");
-        SubTask subTask3 = new SubTask("Сдать финальную работу", "Сдать финальную работу");
+        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу",
+                LocalDateTime.now(), Duration.ofSeconds(99999999));
+        SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию и сделать задания в тренажёре",
+                LocalDateTime.now(), Duration.ofSeconds(9999999));
+        SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу",
+                LocalDateTime.now(), Duration.ofSeconds(9999999));
+        SubTask subTask3 = new SubTask("Сдать финальную работу", "Сдать финальную работу",
+                LocalDateTime.now(), Duration.ofSeconds(9999999));
         int idEpic = fileBackedTasksManager.createEpic(epic1);
         fileBackedTasksManager.createSubTask(subTask1, idEpic);
         fileBackedTasksManager.createSubTask(subTask2, idEpic);
         fileBackedTasksManager.createSubTask(subTask3, idEpic);
 
-        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
+        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин",
+                LocalDateTime.now(), Duration.ofSeconds(9999));
         fileBackedTasksManager.createEpic(epic2);
 
+        fileBackedTasksManager.getTask(task2.getId());
+        fileBackedTasksManager.getTask(task1.getId());
         fileBackedTasksManager.getTask(task2.getId());
         fileBackedTasksManager.getEpic(epic2.getId());
         fileBackedTasksManager.getSubTask(subTask2.getId());
@@ -135,7 +147,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     private void save() {
-        String headFile = "id,type,name,status,description,epic\n";
+        String headFile = "id,type,name,status,description,startTime,duration,epic\n";
         StringBuilder stringForFile = new StringBuilder(headFile);
         for(Task task : getTasks()) {
             stringForFile.append(toString(task));
@@ -169,9 +181,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 typeTask = TypeTask.TASK;
                 break;
         }
-        return String.format("%d,%s,%s,%s,%s,%s\n",
-                             task.getId(), typeTask, task.getTitle(),
-                             task.getStatus(), task.getDescription(), idEpic);
+        Duration duration = task.getDuration();
+        return String.format("%d,%s,%s,%s,%s,%td.%6$tm.%6$tY %6$tT,%d:%02d:%02d,%s\n",
+                             task.getId(), typeTask, task.getTitle(), task.getStatus(), task.getDescription(),
+                             task.getStartTime(), duration.toHours(), duration.toMinutesPart(),
+                             duration.toSecondsPart(), idEpic);
     }
 
     private Task fromString(String value) {
@@ -182,15 +196,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         String name = taskLines[2];
         Status status = Status.valueOf(taskLines[3]);
         String description = taskLines[4];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        LocalDateTime startTime = LocalDateTime.parse(taskLines[5], formatter);
+        String[] durationLines = taskLines[6].split(":");
+        long seconds = 0;
+        for (int i = 0; i < durationLines.length; i++) {
+            seconds += Long.parseLong(durationLines[i]);
+            if (i < (durationLines.length - 1)) {
+                seconds *= 60;
+            }
+        }
+        Duration duration = Duration.ofSeconds(seconds);
         switch (type) {
             case TASK:
-                task = new Task(id, name, description, status);
+                task = new Task(id, name, description, status, startTime, duration);
                 break;
             case EPIC:
-                task = new Epic(id, name, description, status, new ArrayList<Integer>());
+                task = new Epic(id, name, description, status, startTime, duration, new ArrayList<Integer>());
                 break;
             case SUBTASK:
-                task = new SubTask(id, name, description, status, Integer.parseInt(taskLines[5]));
+                task = new SubTask(id, name, description, status, startTime, duration, Integer.parseInt(taskLines[7]));
                 break;
         }
         return task;

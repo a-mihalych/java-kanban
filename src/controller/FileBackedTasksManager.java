@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -122,8 +121,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                         i++;
                     }
                     fileBackedTasksManager.setTasks(tasks);
-                    fileBackedTasksManager.setEpics(epics);
                     fileBackedTasksManager.setSubTasks(subTasks);
+                    fileBackedTasksManager.setEpics(epics);
                     fileBackedTasksManager.addPrioritizedTasks();
                     if (fileLines.length == (i + 2)) {
                         List<Integer> historyViews = historyFromString(fileLines[i + 1]);

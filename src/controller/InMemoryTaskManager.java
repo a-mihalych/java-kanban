@@ -64,6 +64,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void setEpics(Map<Integer, Epic> epics) {
         this.epics = epics;
+        for (Integer key : epics.keySet()) {
+            calculatingEndTimeOfEpic(key);
+        }
     }
 
     @Override

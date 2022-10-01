@@ -19,6 +19,7 @@ public class Epic extends Task {
                 LocalDateTime startTime, Duration duration, ArrayList<Integer> idSubTasks) {
         super(id, title, description, status, startTime, duration);
         this.idSubTasks = idSubTasks;
+        this.endTime = startTime.plus(duration);
     }
 
     public ArrayList<Integer> getIdSubTasks() {

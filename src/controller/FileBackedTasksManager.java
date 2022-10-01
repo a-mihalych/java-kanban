@@ -37,7 +37,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         fileBackedTasksManager.createTask(task1);
 
         Task task2 = new Task("Помыть посуду", "Вымыть тарелку ложку чашку",
-                              LocalDateTime.now(), Duration.ofSeconds(999));
+                              LocalDateTime.now().minus(Duration.ofSeconds(6000)), Duration.ofSeconds(999));
         fileBackedTasksManager.createTask(task2);
 
         Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу",
@@ -54,7 +54,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         fileBackedTasksManager.createSubTask(subTask3, idEpic);
 
         Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин",
-                              LocalDateTime.now(), Duration.ofSeconds(3000));
+                              LocalDateTime.now().minus(Duration.ofSeconds(36000)), Duration.ofSeconds(3000));
         fileBackedTasksManager.createEpic(epic2);
 
         fileBackedTasksManager.getTask(task2.getId());
@@ -69,6 +69,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         fileBackedTasksManager2.getEpic(epic1.getId());
         fileBackedTasksManager2.getSubTask(subTask1.getId());
         fileBackedTasksManager2.getTask(task1.getId());
+
+        System.out.println(fileBackedTasksManager2.getPrioritizedTasks());
     }
 
     private static String historyToString(HistoryManager manager) {
@@ -122,6 +124,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                     fileBackedTasksManager.setTasks(tasks);
                     fileBackedTasksManager.setEpics(epics);
                     fileBackedTasksManager.setSubTasks(subTasks);
+                    fileBackedTasksManager.addPrioritizedTasks();
                     if (fileLines.length == (i + 2)) {
                         List<Integer> historyViews = historyFromString(fileLines[i + 1]);
                         for (int id : historyViews) {

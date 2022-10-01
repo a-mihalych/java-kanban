@@ -33,6 +33,8 @@ public class SubTask extends Task {
                 ", title='" + getTitle() + '\'' +
                 ", description=" + getDescription() +
                 ", status=" + getStatus() +
+                ", startTime=" + getStartTimeLine() +
+                ", duration=" + getDurationLine() +
                 '}';
     }
 }

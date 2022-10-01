@@ -184,11 +184,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                 typeTask = TypeTask.TASK;
                 break;
         }
-        Duration duration = task.getDuration();
-        return String.format("%d,%s,%s,%s,%s,%td.%6$tm.%6$tY %6$tT,%d:%02d:%02d,%s\n",
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%s\n",
                              task.getId(), typeTask, task.getTitle(), task.getStatus(), task.getDescription(),
-                             task.getStartTime(), duration.toHours(), duration.toMinutesPart(),
-                             duration.toSecondsPart(), idEpic);
+                             task.getStartTimeLine(), task.getDurationLine(), idEpic);
     }
 
     private Task fromString(String value) {
@@ -199,8 +197,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         String name = taskLines[2];
         Status status = Status.valueOf(taskLines[3]);
         String description = taskLines[4];
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-        LocalDateTime startTime = LocalDateTime.parse(taskLines[5], formatter);
+        LocalDateTime startTime = LocalDateTime.parse(taskLines[5], Task.FORMATTER);
         String[] durationLines = taskLines[6].split(":");
         long seconds = 0;
         for (int i = 0; i < durationLines.length; i++) {

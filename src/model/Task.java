@@ -2,9 +2,11 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
 
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
     private int id;
     private String title;
     private String description;
@@ -54,12 +56,18 @@ public class Task {
     public LocalDateTime getStartTime() {
         return startTime;
     }
+    public String getStartTimeLine() {
+        return startTime.format(FORMATTER);
+    }
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
     public Duration getDuration() {
         return duration;
+    }
+    public String getDurationLine() {
+        return String.format("%d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
     }
     public void setDuration(Duration duration) {
         this.duration = duration;
@@ -68,14 +76,19 @@ public class Task {
     public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }
+    public String getEndTimeLine() {
+        return getEndTime().format(FORMATTER);
+    }
 
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", description=" + description +
+                ", description='" + description + '\'' +
                 ", status=" + status +
+                ", startTime=" + getStartTimeLine() +
+                ", duration=" + getDurationLine() +
                 '}';
     }
 }

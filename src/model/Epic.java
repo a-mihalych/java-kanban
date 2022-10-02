@@ -9,17 +9,15 @@ public class Epic extends Task {
     private ArrayList<Integer> idSubTasks;
     private LocalDateTime endTime;
 
-    public Epic(String title, String description, LocalDateTime startTime, Duration duration) {
-        super(title, description, startTime, duration);
+    public Epic(String title, String description) {
+        super(title, description, null, 0);
         this.idSubTasks = new ArrayList<>();
-        this.endTime = startTime.plus(duration);
     }
 
     public Epic(int id, String title, String description, Status status,
-                LocalDateTime startTime, Duration duration, ArrayList<Integer> idSubTasks) {
+                LocalDateTime startTime, int duration, ArrayList<Integer> idSubTasks) {
         super(id, title, description, status, startTime, duration);
         this.idSubTasks = idSubTasks;
-        this.endTime = startTime.plus(duration);
     }
 
     public ArrayList<Integer> getIdSubTasks() {
@@ -28,6 +26,14 @@ public class Epic extends Task {
 
     public void addIdSubTask(int idSubTask) {
         idSubTasks.add(idSubTask);
+    }
+
+    public void setDuration() {
+        if ((getStartTime() != null) && (endTime != null)) {
+            setDuration((int) Duration.between(getStartTime(), endTime).toMinutes());
+        } else {
+            setDuration(0);
+        }
     }
 
     @Override
@@ -43,11 +49,11 @@ public class Epic extends Task {
         return "Epic{" +
                 "id=" + getId() +
                 ", idSubTasks=" + idSubTasks +
-                ", title='" + getTitle() + '\'' +
-                ", description=" + getDescription() +
+//  todo              ", title=" + getTitle() +
+//                ", description=" + getDescription() +
                 ", status=" + getStatus() +
                 ", startTime=" + getStartTimeLine() +
-                ", duration=" + getDurationLine() +
+                ", duration=" + getDurationHoursMinutesLine() +
                 ", endTime=" + getEndTimeLine() +
                 '}';
 

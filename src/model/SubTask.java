@@ -1,18 +1,17 @@
 package model;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class SubTask extends Task {
 
     private int idEpic;
 
-    public SubTask(String title, String description, LocalDateTime startTime, Duration duration) {
+    public SubTask(String title, String description, LocalDateTime startTime, int duration) {
         super(title, description, startTime, duration);
     }
 
     public SubTask(int id, String title, String description, Status status,
-                   LocalDateTime startTime, Duration duration, int idEpic) {
+                   LocalDateTime startTime, int duration, int idEpic) {
         super(id, title, description, status, startTime, duration);
         this.idEpic = idEpic;
     }
@@ -20,7 +19,6 @@ public class SubTask extends Task {
     public int getIdEpic() {
         return idEpic;
     }
-
     public void setIdEpic(int idEpic) {
         this.idEpic = idEpic;
     }
@@ -30,11 +28,11 @@ public class SubTask extends Task {
         return "SubTask{" +
                 "id=" + getId() +
                 ", idEpic=" + idEpic +
-                ", title='" + getTitle() + '\'' +
-                ", description=" + getDescription() +
+//  todo              ", title=" + getTitle() +
+//                ", description=" + getDescription() +
                 ", status=" + getStatus() +
                 ", startTime=" + getStartTimeLine() +
-                ", duration=" + getDurationLine() +
+                ", duration=" + getDurationHoursMinutesLine() +
                 '}';
     }
 }

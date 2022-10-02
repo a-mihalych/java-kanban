@@ -5,7 +5,6 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -45,13 +44,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getPrioritizedTasks () {
-        return new ArrayList<Task>(prioritizedTasks);
+        return new ArrayList<>(prioritizedTasks);
     }
 
     public void addPrioritizedTasks() {
         prioritizedTasks.addAll(tasks.values());
         prioritizedTasks.addAll(subTasks.values());
-        prioritizedTasks.addAll(epics.values());
     }
 
     public void setTasks(Map<Integer, Task> tasks) {
@@ -267,20 +265,26 @@ public class InMemoryTaskManager implements TaskManager {
     private void calculatingEndTimeOfEpic(int id) {
         List<SubTask> subTasksEpic = getSubTasksByEpicId(id);
         if (!subTasksEpic.isEmpty()) {
-            LocalDateTime startEpic = subTasksEpic.get(0).getStartTime();
-            LocalDateTime endEpic = subTasksEpic.get(0).getEndTime();
+            LocalDateTime startEpic = null;
+            LocalDateTime endEpic = null;
+            Epic epic = epics.get(id);
             for (SubTask subTask : subTasksEpic) {
-                if(subTask.getStartTime().isBefore(startEpic)) {
-                    startEpic = subTask.getStartTime();
-                }
-                if(subTask.getEndTime().isAfter(startEpic)) {
-                    endEpic = subTask.getEndTime();
+                if (subTask.getStartTime() == null) {
+                    startEpic = null;
+                    endEpic = null;
+                    break;
+                } else {
+                    if ((startEpic == null) || (subTask.getStartTime().isBefore(startEpic))) {
+                        startEpic = subTask.getStartTime();
+                    }
+                    if ((endEpic == null) || (subTask.getEndTime().isAfter(endEpic))) {
+                        endEpic = subTask.getEndTime();
+                    }
                 }
             }
-            Epic epic = epics.get(id);
             epic.setEndTime(endEpic);
             epic.setStartTime(startEpic);
-            epic.setDuration(Duration.between(startEpic, endEpic));
+            epic.setDuration();
         }
     }
 }

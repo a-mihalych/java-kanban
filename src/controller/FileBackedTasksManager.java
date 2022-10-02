@@ -32,28 +32,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(pathFile);
 
         Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань",
-                              LocalDateTime.now(), Duration.ofSeconds(99));
+                              LocalDateTime.now(), 5);
         fileBackedTasksManager.createTask(task1);
 
         Task task2 = new Task("Помыть посуду", "Вымыть тарелку ложку чашку",
-                              LocalDateTime.now().minus(Duration.ofSeconds(6000)), Duration.ofSeconds(999));
+                              LocalDateTime.now().minus(Duration.ofSeconds(6000)), 11);
         fileBackedTasksManager.createTask(task2);
 
-        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу",
-                              LocalDateTime.now(), Duration.ofSeconds(60000));
+        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу");
         SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию и сделать задания в тренажёре",
-                                       LocalDateTime.now(), Duration.ofSeconds(6000));
+                                       LocalDateTime.now(), 410);
         SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу",
-                                       LocalDateTime.now().plus(Duration.ofSeconds(10000)), Duration.ofSeconds(12000));
+                                       LocalDateTime.now().plus(Duration.ofSeconds(10000)), 210);
         SubTask subTask3 = new SubTask("Сдать финальную работу", "Сдать финальную работу",
-                                       LocalDateTime.now().plus(Duration.ofSeconds(25000)), Duration.ofSeconds(9000));
+                                       LocalDateTime.now().plus(Duration.ofSeconds(25000)), 99);
         int idEpic = fileBackedTasksManager.createEpic(epic1);
         fileBackedTasksManager.createSubTask(subTask1, idEpic);
         fileBackedTasksManager.createSubTask(subTask2, idEpic);
         fileBackedTasksManager.createSubTask(subTask3, idEpic);
 
-        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин",
-                              LocalDateTime.now().minus(Duration.ofSeconds(36000)), Duration.ofSeconds(3000));
+        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
         fileBackedTasksManager.createEpic(epic2);
 
         fileBackedTasksManager.getTask(task2.getId());
@@ -185,7 +183,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
         return String.format("%d,%s,%s,%s,%s,%s,%s,%s\n",
                              task.getId(), typeTask, task.getTitle(), task.getStatus(), task.getDescription(),
-                             task.getStartTimeLine(), task.getDurationLine(), idEpic);
+                             task.getStartTimeLine(), task.getDurationHoursMinutesLine(), idEpic);
     }
 
     private Task fromString(String value) {
@@ -196,16 +194,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         String name = taskLines[2];
         Status status = Status.valueOf(taskLines[3]);
         String description = taskLines[4];
-        LocalDateTime startTime = LocalDateTime.parse(taskLines[5], Task.FORMATTER);
-        String[] durationLines = taskLines[6].split(":");
-        long seconds = 0;
-        for (int i = 0; i < durationLines.length; i++) {
-            seconds += Long.parseLong(durationLines[i]);
-            if (i < (durationLines.length - 1)) {
-                seconds *= 60;
-            }
+        LocalDateTime startTime = null;
+        if (!taskLines[5].equals("null")) {
+            startTime = LocalDateTime.parse(taskLines[5], Task.FORMATTER);
         }
-        Duration duration = Duration.ofSeconds(seconds);
+        String[] durationLines = taskLines[6].split(":");
+        int duration = Integer.parseInt(durationLines[0]) * 60 + Integer.parseInt(durationLines[1]);
         switch (type) {
             case TASK:
                 task = new Task(id, name, description, status, startTime, duration);

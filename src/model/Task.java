@@ -102,6 +102,14 @@ public class Task {
         return "null";
     }
 
+    public boolean isIntersectionTasks(Task task) {
+        if ((startTime == null) || (duration == 0) || (task.getStartTime() == null) || (task.duration == 0)
+            || startTime.isAfter(task.getEndTime()) || getEndTime().isBefore(task.getStartTime())) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Task{" +

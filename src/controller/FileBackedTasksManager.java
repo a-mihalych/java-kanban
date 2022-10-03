@@ -54,18 +54,41 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
         fileBackedTasksManager.createEpic(epic2);
 
-        fileBackedTasksManager.getTask(task2.getId());
-        fileBackedTasksManager.getTask(task1.getId());
-        fileBackedTasksManager.getTask(task2.getId());
-        fileBackedTasksManager.getEpic(epic2.getId());
-        fileBackedTasksManager.getSubTask(subTask2.getId());
-        fileBackedTasksManager.getEpic(epic2.getId());
+
+        if (task2.getId() != 0) {
+            fileBackedTasksManager.getTask(task2.getId());
+        }
+        if (task1.getId() != 0) {
+            fileBackedTasksManager.getTask(task1.getId());
+        }
+        if (task2.getId() != 0) {
+            fileBackedTasksManager.getTask(task2.getId());
+        }
+        if (epic2.getId() != 0) {
+            fileBackedTasksManager.getEpic(epic2.getId());
+        }
+        if (subTask2.getId() != 0) {
+            fileBackedTasksManager.getSubTask(subTask2.getId());
+        }
+        if (epic2.getId() != 0) {
+            fileBackedTasksManager.getEpic(epic2.getId());
+        }
 
         FileBackedTasksManager fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(pathFile);
 
-        fileBackedTasksManager2.getEpic(epic1.getId());
-        fileBackedTasksManager2.getSubTask(subTask1.getId());
-        fileBackedTasksManager2.getTask(task1.getId());
+        if (epic1.getId() != 0) {
+            fileBackedTasksManager2.getEpic(epic1.getId());
+        }
+        if (subTask1.getId() != 0) {
+            fileBackedTasksManager2.getSubTask(subTask1.getId());
+        }
+        if (task1.getId() != 0) {
+            fileBackedTasksManager2.getTask(task1.getId());
+        }
+        if (task1.getId() != 0) {
+            task1.setDuration(1111);
+            fileBackedTasksManager2.updateTask(task1);
+        }
 
         System.out.println(fileBackedTasksManager2.getPrioritizedTasks());
     }
@@ -87,7 +110,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return historyViews;
     }
 
-    private static FileBackedTasksManager loadFromFile(File file) {
+    public static FileBackedTasksManager loadFromFile(File file) {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         HistoryManager historyManager = Managers.getDefaultHistory();
         try {
@@ -273,14 +296,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     @Override
     public void createTask(Task task) {
-        super.createTask(task);
-        save();
+        if (isIntersectionTasks(getPrioritizedTasks(), task)) {
+            System.out.printf("Задача, %s, не может быть создана, на это время уже назначена другая задача.\n",
+                              task.getTitle());
+        } else {
+            super.createTask(task);
+            save();
+        }
     }
 
     @Override
     public void createSubTask(SubTask subTask, int idEpic) {
-        super.createSubTask(subTask, idEpic);
-        save();
+        if (isIntersectionTasks(getPrioritizedTasks(), subTask)) {
+            System.out.printf("Задача, %s, не может быть создана, на это время уже назначена другая задача.\n",
+                              subTask.getTitle());
+        } else {
+            super.createSubTask(subTask, idEpic);
+            save();
+        }
     }
 
     @Override
@@ -292,14 +325,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     @Override
     public void updateTask(Task task) {
-        super.updateTask(task);
-        save();
+        if (isIntersectionTasks(getPrioritizedTasks(), task)) {
+            System.out.printf("Задача, %s, не может быть изменена, на это время уже назначена другая задача.\n",
+                              task.getTitle());
+        } else {
+            super.updateTask(task);
+            save();
+        }
     }
 
     @Override
     public void updateSubTask(SubTask subTask) {
-        super.updateSubTask(subTask);
-        save();
+        if (isIntersectionTasks(getPrioritizedTasks(), subTask)) {
+            System.out.printf("Задача, %s, не может быть изменена, на это время уже назначена другая задача.\n",
+                              subTask.getTitle());
+        } else {
+            super.updateSubTask(subTask);
+            save();
+        }
     }
 
     @Override
@@ -324,5 +367,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
+    }
+
+    private boolean isIntersectionTasks(List<Task> tasks, Task task) {
+        for (Task value : tasks) {
+            if (task.isIntersectionTasks(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

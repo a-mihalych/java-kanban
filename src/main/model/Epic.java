@@ -49,8 +49,8 @@ public class Epic extends Task {
         return "Epic{" +
                 "id=" + getId() +
                 ", idSubTasks=" + idSubTasks +
-//  todo              ", title=" + getTitle() +
-//                ", description=" + getDescription() +
+                ", title=" + getTitle() +
+                ", description=" + getDescription() +
                 ", status=" + getStatus() +
                 ", startTime=" + getStartTimeLine() +
                 ", duration=" + getDurationHoursMinutesLine() +

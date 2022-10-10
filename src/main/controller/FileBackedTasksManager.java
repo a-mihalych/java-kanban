@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,79 +17,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     private static final String SPLITTER = ",";
     private File file;
 
-    private FileBackedTasksManager(File file) {
+    public FileBackedTasksManager(File file) {
         this.file = file;
-    }
-
-    public static void main(String[] args) {
-
-        String pathProjectDir = System.getProperty("user.dir");
-        File pathFile = new File(pathProjectDir + File.separator
-                + "src" + File.separator
-                + "resources", "tasks.csv");
-
-        FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(pathFile);
-
-        Task task1 = new Task("Полить комнатные расстения", "Полить кактус и герань",
-                              LocalDateTime.now(), 5);
-        fileBackedTasksManager.createTask(task1);
-
-        Task task2 = new Task("Помыть посуду", "Вымыть тарелку ложку чашку",
-                              LocalDateTime.now().minus(Duration.ofSeconds(6000)), 11);
-        fileBackedTasksManager.createTask(task2);
-
-        Epic epic1 = new Epic("Закончить спринт", "Изучить теорию. Выполнить и сдать финальную работу");
-        SubTask subTask1 = new SubTask("Изучить теорию", "Освоить теорию и сделать задания в тренажёре",
-                                       LocalDateTime.now(), 410);
-        SubTask subTask2 = new SubTask("Сделать финальную работу", "Написать финальную работу",
-                                       LocalDateTime.now().plus(Duration.ofSeconds(10000)), 210);
-        SubTask subTask3 = new SubTask("Сдать финальную работу", "Сдать финальную работу",
-                                       LocalDateTime.now().plus(Duration.ofSeconds(25000)), 99);
-        int idEpic = fileBackedTasksManager.createEpic(epic1);
-        fileBackedTasksManager.createSubTask(subTask1, idEpic);
-        fileBackedTasksManager.createSubTask(subTask2, idEpic);
-        fileBackedTasksManager.createSubTask(subTask3, idEpic);
-
-        Epic epic2 = new Epic("Сходить за покупками", "Сходить в продуктовый магазин");
-        fileBackedTasksManager.createEpic(epic2);
-
-
-        if (task2.getId() != 0) {
-            fileBackedTasksManager.getTask(task2.getId());
-        }
-        if (task1.getId() != 0) {
-            fileBackedTasksManager.getTask(task1.getId());
-        }
-        if (task2.getId() != 0) {
-            fileBackedTasksManager.getTask(task2.getId());
-        }
-        if (epic2.getId() != 0) {
-            fileBackedTasksManager.getEpic(epic2.getId());
-        }
-        if (subTask2.getId() != 0) {
-            fileBackedTasksManager.getSubTask(subTask2.getId());
-        }
-        if (epic2.getId() != 0) {
-            fileBackedTasksManager.getEpic(epic2.getId());
-        }
-
-        FileBackedTasksManager fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(pathFile);
-
-        if (epic1.getId() != 0) {
-            fileBackedTasksManager2.getEpic(epic1.getId());
-        }
-        if (subTask1.getId() != 0) {
-            fileBackedTasksManager2.getSubTask(subTask1.getId());
-        }
-        if (task1.getId() != 0) {
-            fileBackedTasksManager2.getTask(task1.getId());
-        }
-        if (task1.getId() != 0) {
-            task1.setDuration(1111);
-            fileBackedTasksManager2.updateTask(task1);
-        }
-
-        System.out.println(fileBackedTasksManager2.getPrioritizedTasks());
     }
 
     private static String historyToString(HistoryManager manager) {
@@ -133,7 +61,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                                 break;
                             case SUBTASK:
                                 subTasks.put(task.getId(), (SubTask) task);
-                                epics.get(((SubTask) task).getIdEpic()).addIdSubTask(task.getId());
                                 break;
                             case TASK:
                                 tasks.put(task.getId(), task);
@@ -141,9 +68,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
                         }
                         i++;
                     }
+                    fileBackedTasksManager.deleteTasks();
+                    fileBackedTasksManager.deleteSubTasks();
+                    fileBackedTasksManager.deleteEpics();
                     fileBackedTasksManager.setTasks(tasks);
-                    fileBackedTasksManager.setSubTasks(subTasks);
                     fileBackedTasksManager.setEpics(epics);
+                    fileBackedTasksManager.setSubTasks(subTasks);
                     fileBackedTasksManager.addPrioritizedTasks();
                     if (fileLines.length == (i + 2)) {
                         List<Integer> historyViews = historyFromString(fileLines[i + 1]);
@@ -237,22 +167,22 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return task;
     }
 
-    @Override
-    public void setTasks(Map<Integer, Task> tasks) {
-        super.setTasks(tasks);
-        save();
+    private void setTasks(Map<Integer, Task> tasks) {
+        for (Task task : tasks.values()) {
+            updateTask(task);
+        }
     }
 
-    @Override
-    public void setSubTasks(Map<Integer, SubTask> subTasks) {
-        super.setSubTasks(subTasks);
-        save();
+    private void setSubTasks(Map<Integer, SubTask> subTasks) {
+        for (SubTask subTask : subTasks.values()) {
+            updateSubTask(subTask);
+        }
     }
 
-    @Override
-    public void setEpics(Map<Integer, Epic> epics) {
-        super.setEpics(epics);
-        save();
+    private void setEpics(Map<Integer, Epic> epics) {
+        for (Epic epic : epics.values()) {
+            updateEpic(epic);
+        }
     }
 
     @Override
@@ -296,24 +226,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     @Override
     public void createTask(Task task) {
-        if (isIntersectionTasks(getPrioritizedTasks(), task)) {
-            System.out.printf("Задача, %s, не может быть создана, на это время уже назначена другая задача.\n",
-                              task.getTitle());
-        } else {
             super.createTask(task);
             save();
-        }
     }
 
     @Override
     public void createSubTask(SubTask subTask, int idEpic) {
-        if (isIntersectionTasks(getPrioritizedTasks(), subTask)) {
-            System.out.printf("Задача, %s, не может быть создана, на это время уже назначена другая задача.\n",
-                              subTask.getTitle());
-        } else {
             super.createSubTask(subTask, idEpic);
             save();
-        }
     }
 
     @Override
@@ -325,24 +245,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
     @Override
     public void updateTask(Task task) {
-        if (isIntersectionTasks(getPrioritizedTasks(), task)) {
-            System.out.printf("Задача, %s, не может быть изменена, на это время уже назначена другая задача.\n",
-                              task.getTitle());
-        } else {
             super.updateTask(task);
             save();
-        }
     }
 
     @Override
     public void updateSubTask(SubTask subTask) {
-        if (isIntersectionTasks(getPrioritizedTasks(), subTask)) {
-            System.out.printf("Задача, %s, не может быть изменена, на это время уже назначена другая задача.\n",
-                              subTask.getTitle());
-        } else {
             super.updateSubTask(subTask);
             save();
-        }
     }
 
     @Override
@@ -367,14 +277,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
-    }
-
-    private boolean isIntersectionTasks(List<Task> tasks, Task task) {
-        for (Task value : tasks) {
-            if (task.isIntersectionTasks(value)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

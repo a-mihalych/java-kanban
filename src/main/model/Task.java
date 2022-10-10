@@ -114,8 +114,8 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
-//  todo              ", title=" + title +
-//                ", description=" + description +
+                ", title=" + title +
+                ", description=" + description +
                 ", status=" + status +
                 ", startTime=" + getStartTimeLine() +
                 ", duration=" + getDurationHoursMinutesLine() +

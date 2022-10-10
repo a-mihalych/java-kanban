@@ -28,8 +28,8 @@ public class SubTask extends Task {
         return "SubTask{" +
                 "id=" + getId() +
                 ", idEpic=" + idEpic +
-//  todo              ", title=" + getTitle() +
-//                ", description=" + getDescription() +
+                ", title=" + getTitle() +
+                ", description=" + getDescription() +
                 ", status=" + getStatus() +
                 ", startTime=" + getStartTimeLine() +
                 ", duration=" + getDurationHoursMinutesLine() +

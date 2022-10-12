@@ -52,7 +52,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
     @Test
     public void calculationOfEpicStatus() {
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         int idEpic = taskManager.createEpic(epic);
         assertEquals(Status.NEW, taskManager.getEpic(idEpic).getStatus(), "Статус должен быть NEW.");
         SubTask subTask1 = new SubTask("Подзадача1", "Тест", null, 0);
@@ -77,7 +77,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
     @Test
     public void presenceOfEpicWhenCreatingSubtask() {
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         SubTask subTask = new SubTask("Подзадача", "Тест", null, 0);
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask, 3);
@@ -88,7 +88,7 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
 
     @Test
     public void changingStatusOfEpicWhenAddingSubtask() {
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         SubTask subTask1 = new SubTask("Подзадача1", "Тест", null, 0);
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask1, idEpic);

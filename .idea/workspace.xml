@@ -1,40 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c197e69d-40b2-4a56-a318-6241a9bc3c27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/java-kanban.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/FileBackedTasksManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/InMemoryHistoryManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/InMemoryTaskManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/TaskManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/model/EpicTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/model/TaskTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban.iml" beforeDir="false" afterPath="$PROJECT_DIR$/java-kanban.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/META-INF/java-kanban.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/resources/tasks.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/FileBackedTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/FileBackedTasksManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/HistoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/HistoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/InMemoryHistoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/InMemoryHistoryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/InMemoryTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/InMemoryTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ManagerSaveException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/ManagerSaveException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Managers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Managers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/TaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Epic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/model/Epic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/EpicTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/model/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/SubTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/model/SubTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/TypeTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/model/TypeTask.java" afterDir="false" />
-    </list>
+    <list default="true" id="c197e69d-40b2-4a56-a318-6241a9bc3c27" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -83,14 +50,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../java-kanban" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;H:/java/progi/yandex/java-kanban&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="H:\java\progi\yandex\java-kanban2\java-kanban\src\main" />
@@ -112,17 +78,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskTest.getEndTime" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="FileBackedTasksManagerTest.loadFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.*" />
+          <option name="PATTERN" value="controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.TaskTest" />
-      <option name="METHOD_NAME" value="getEndTime" />
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.FileBackedTasksManagerTest" />
+      <option name="METHOD_NAME" value="loadFromFile" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,10 +129,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in java-kanban" />
+        <item itemvalue="JUnit.FileBackedTasksManagerTest.loadFromFile" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TaskTest.isIntersectionTasks" />
         <item itemvalue="JUnit.TaskTest.getEndTimeLine" />
-        <item itemvalue="JUnit.TaskTest.getEndTime" />
       </list>
     </recent_temporary>
   </component>
@@ -249,8 +215,19 @@
       <window_info anchor="right" id="Coverage" order="9" side_tool="true" />
     </layout>
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/java_kanban$All_in_java_kanban.ic" NAME="All in java-kanban Coverage Results" MODIFIED="1665267166475" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/java_kanban$All_in_java_kanban.ic" NAME="All in java-kanban Coverage Results" MODIFIED="1665569743300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/java_kanban$FileBackedTasksManagerTest_and_1_more.ic" NAME="FileBackedTasksManagerTest and 1 more Coverage Results" MODIFIED="1665252723999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>

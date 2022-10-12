@@ -58,7 +58,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.deleteEpics();
         assertTrue(taskManager.getSubTasks().isEmpty());
         assertTrue(taskManager.getEpics().isEmpty());
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         SubTask subTask = new SubTask("Подзадача", "Тест", null, 0);
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask, idEpic);
@@ -81,18 +81,18 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
     @Test
     public void getSubTaskAndEpicById() {
-        Epic epic = new Epic(1, "Задачище", "Тест",
+        Epic epic = new Epic(1, "Эпик", "Тест",
                              Status.NEW, null, 0, new ArrayList<>());
         SubTask subTask = new SubTask(2, "Подзадача", "Тест",
                                       Status.NEW, null, 0, 2);
-        assertNull(taskManager.getEpic(1), "Большой задачи в списке нет.");
+        assertNull(taskManager.getEpic(1), "Эпика в списке нет.");
         assertNull(taskManager.getSubTask(2), "Подзадачи в списке нет.");
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask, idEpic);
         int idSubTask = subTask.getId();
-        assertEquals(idEpic, taskManager.getEpic(idEpic).getId(), "Вернулась другая задачище");
+        assertEquals(idEpic, taskManager.getEpic(idEpic).getId(), "Вернулся другой эпик");
         assertEquals(idSubTask, taskManager.getSubTask(idSubTask).getId(), "Вернулась другая подзадача");
-        assertNull(taskManager.getEpic(idEpic + 1), "Большой задачи в списке нет.");
+        assertNull(taskManager.getEpic(idEpic + 1), "Эпика в списке нет.");
         assertNull(taskManager.getSubTask(idSubTask + 1), "Подзадачи в списке нет.");
     }
 
@@ -106,7 +106,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
     @Test
     public void createNewSubTaskAndEpic() {
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         SubTask subTask = new SubTask("Подзадача", "Тест", null, 0);
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask, idEpic);
@@ -137,7 +137,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
     @Test
     public void updatingSubTaskAndEpicNewSubTaskAndEpicSameId() {
-        Epic epic1 = new Epic("Задачище", "Начальная");
+        Epic epic1 = new Epic("Эпик", "Начальная");
         SubTask subTask1 = new SubTask("Подзадача", "Начальная", null, 0);
         int idEpic = taskManager.createEpic(epic1);
         taskManager.createSubTask(subTask1, idEpic);
@@ -148,7 +148,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                      "Задачи не совпадают.");
         assertEquals("Начальная", taskManager.getEpic(idEpic).getDescription(),
                      "Задачи не совпадают.");
-        Epic epic2 = new Epic(idEpic, "Задачище", "Обновлённая",
+        Epic epic2 = new Epic(idEpic, "Эпик", "Обновлённая",
                               epic1.getStatus(), null, 0, epic1.getIdSubTasks());
         SubTask subTask2 = new SubTask(idSubTask, "Подзадача", "Обновлённая",
                                        subTask1.getStatus(), null, 0, idEpic);
@@ -160,7 +160,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                      "Задача не обновилась.");
         assertEquals("Обновлённая", taskManager.getEpic(idEpic).getDescription(),
                      "Задача не обновилась.");
-        Epic epic3 = new Epic(3, "Задачище", "Ошибочная",
+        Epic epic3 = new Epic(3, "Эпик", "Ошибочная",
                               Status.NEW, null, 0, new ArrayList<>());
         SubTask subTask3 = new SubTask(4, "Подзадача", "Ошибочная",
                                        Status.NEW, null, 0, 3);
@@ -193,7 +193,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void deleteSubTaskAndEpicById() {
         taskManager.deleteSubTask(1);
         taskManager.deleteEpic(1);
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         SubTask subTask = new SubTask("Подзадача", "Тест", null, 0);
         int idEpic = taskManager.createEpic(epic);
         taskManager.createSubTask(subTask, idEpic);

@@ -11,7 +11,7 @@ public class EpicTest {
 
     @Test
     public void calculateDuration() {
-        Epic epic = new Epic(3, "Задачище", "Тест", Status.NEW,
+        Epic epic = new Epic(3, "Эпик", "Тест", Status.NEW,
                              LocalDateTime.of(2022, 2, 22, 22, 20),
                              0, new ArrayList<>());
         epic.setEndTime(LocalDateTime.of(2022, 2, 22, 23, 40));

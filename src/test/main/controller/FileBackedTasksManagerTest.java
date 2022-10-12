@@ -27,63 +27,41 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
         taskManager.restoreId();
     }
 
+    private void testMapSetListForSize(int sizeTasks, int sizeSubTasks, int sizeEpics,
+                                       int sizePrioritized, int sizeHistory) {
+        assertEquals(sizePrioritized, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
+        assertEquals(sizeTasks, taskManager.getTasks().size(), "Неверное количество задач.");
+        assertEquals(sizeSubTasks, taskManager.getSubTasks().size(), "Неверное количество задач.");
+        assertEquals(sizeEpics, taskManager.getEpics().size(), "Неверное количество задач.");
+        assertEquals(sizeHistory, Managers.getDefaultHistory().getHistory().size(),
+                    "Неверное количество задач.");
+    }
+
     @Test
     public void loadFromFile() {
-        assertEquals(0, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(0, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(0, 0, 0, 0, 0);
         Task task1 = new Task("Задача", "Тест", null, 0);
         taskManager.createTask(task1);
         taskManager.getTask(task1.getId());
-        assertEquals(1, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(1, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(1, 0, 0, 1, 1);
         taskManager.deleteTask(task1.getId());
-        assertEquals(0, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(0, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(0, 0, 0, 0, 0);
         taskManager = null;
         taskManager = FileBackedTasksManager.loadFromFile(pathFile);
-        assertEquals(0, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(0, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(0, 0, 0, 0, 0);
         Task task2 = new Task("Задача", "Тест", null, 0);
         taskManager.createTask(task2);
-        Epic epic = new Epic("Задачище", "Тест");
+        Epic epic = new Epic("Эпик", "Тест");
         taskManager.createEpic(epic);
-        assertEquals(1, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(0, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(1, 0, 1, 1, 0);
         taskManager = null;
         taskManager = FileBackedTasksManager.loadFromFile(pathFile);
-        assertEquals(1, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(0, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(1, 0, 1, 1, 0);
         taskManager.getTask(task1.getId());
         taskManager.getEpic(epic.getId());
-        assertEquals(1, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(2, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(1, 0, 1, 1, 2);
         taskManager = null;
         taskManager = FileBackedTasksManager.loadFromFile(pathFile);
-        assertEquals(1, taskManager.getPrioritizedTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getTasks().size(), "Неверное количество задач.");
-        assertEquals(0, taskManager.getSubTasks().size(), "Неверное количество задач.");
-        assertEquals(1, taskManager.getEpics().size(), "Неверное количество задач.");
-        assertEquals(2, Managers.getDefaultHistory().getHistory().size(), "Неверное количество задач.");
+        testMapSetListForSize(1, 0, 1, 1, 2);
     }
 }

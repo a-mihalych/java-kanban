@@ -142,6 +142,9 @@ public class InMemoryTaskManager implements TaskManager {
                               task.getTitle());
         } else {
             task.setId(getNextId());
+            if (task.getStatus() == null) {
+                task.setStatus(Status.NEW);
+            }
             tasks.put(task.getId(), task);
             prioritizedTasks.add(task);
         }
@@ -156,6 +159,9 @@ public class InMemoryTaskManager implements TaskManager {
             if (epics.containsKey(idEpic)) {
                 subTask.setId(getNextId());
                 subTask.setIdEpic(idEpic);
+                if (subTask.getStatus() == null) {
+                    subTask.setStatus(Status.NEW);
+                }
                 epics.get(idEpic).addIdSubTask(subTask.getId());
                 subTasks.put(subTask.getId(), subTask);
                 changeStatus(idEpic);
@@ -169,6 +175,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public int createEpic(Epic epic) {
         epic.setId(getNextId());
+        if ((epic.getStatus() == null) || (epic.getIdSubTasks() == null)) {
+            epic = new Epic(epic);
+        }
         epics.put(epic.getId(), epic);
         changeStatus(epic.getId());
         return epic.getId();

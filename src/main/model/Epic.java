@@ -20,6 +20,17 @@ public class Epic extends Task {
         this.idSubTasks = idSubTasks;
     }
 
+    public Epic(Epic epic) {
+        super(epic.getId(), epic.getTitle(), epic.getDescription(),
+              epic.getStatus(), epic.getStartTime(), epic.getDuration());
+        if (epic.getStatus() == null) {
+            epic.setStatus(Status.NEW);
+        }
+        if (this.idSubTasks == null) {
+            this.idSubTasks = new ArrayList<>();
+        }
+    }
+
     public ArrayList<Integer> getIdSubTasks() {
         return idSubTasks;
     }

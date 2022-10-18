@@ -5,19 +5,12 @@ import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
-    public static String pathProjectDir = System.getProperty("user.dir");
-    public static File pathFile = new File(pathProjectDir + File.separator
-                                           + "src" + File.separator
-                                           + "resources", "tasks.csv");
-
     public FileBackedTasksManagerTest() {
-        super(FileBackedTasksManager.loadFromFile(pathFile));
+        super(FileBackedTasksManager.loadFromFile(Managers.PATH_FILE));
     }
 
     @Override
@@ -47,7 +40,7 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
         taskManager.deleteTask(task1.getId());
         testMapSetListForSize(0, 0, 0, 0, 0);
         taskManager = null;
-        taskManager = FileBackedTasksManager.loadFromFile(pathFile);
+        taskManager = FileBackedTasksManager.loadFromFile(Managers.PATH_FILE);
         testMapSetListForSize(0, 0, 0, 0, 0);
         Task task2 = new Task("Задача", "Тест", null, 0);
         taskManager.createTask(task2);
@@ -55,13 +48,13 @@ public class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksM
         taskManager.createEpic(epic);
         testMapSetListForSize(1, 0, 1, 1, 0);
         taskManager = null;
-        taskManager = FileBackedTasksManager.loadFromFile(pathFile);
+        taskManager = FileBackedTasksManager.loadFromFile(Managers.PATH_FILE);
         testMapSetListForSize(1, 0, 1, 1, 0);
         taskManager.getTask(task1.getId());
         taskManager.getEpic(epic.getId());
         testMapSetListForSize(1, 0, 1, 1, 2);
         taskManager = null;
-        taskManager = FileBackedTasksManager.loadFromFile(pathFile);
+        taskManager = FileBackedTasksManager.loadFromFile(Managers.PATH_FILE);
         testMapSetListForSize(1, 0, 1, 1, 2);
     }
 }

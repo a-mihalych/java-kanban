@@ -25,11 +25,9 @@ public class HttpTaskServer {
     private FileBackedTasksManager fileBackedTasksManager;
 
     public HttpTaskServer() throws IOException {
-        fileBackedTasksManager = Managers.getFileBackedTasksManager();
+        fileBackedTasksManager = FileBackedTasksManager.loadFromFile(Managers.PATH_FILE);
         gson = new GsonBuilder()
-                // todo включено удобное отображение Json
                 .setPrettyPrinting()
-                // todo в сериализацию Json включены поля null
                 .serializeNulls()
                 .registerTypeAdapter(LocalDateTime.class, new TypeAdapterForLocalDateTime())
                 .create();
@@ -53,8 +51,6 @@ public class HttpTaskServer {
                 endPoint += "falsebody";
             }
             SubTask subTask;
-            // todo
-            System.out.println("ендпоинт " + endPoint);
             switch(endPoint) {
                 case "GETtasks":
                     response = gson.toJson(fileBackedTasksManager.getTasks());
@@ -165,8 +161,6 @@ public class HttpTaskServer {
                     response = "Запрос не распознан!";
                     rCode = 400;
             }
-            // todo
-            System.out.println(endPoint + " " +rCode);
             if (rCode >= 400) {
                 httpExchange.getResponseHeaders().add("Content-Type", "text/plain");
             } else {

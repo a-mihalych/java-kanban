@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 
 public class HTTPTaskManager extends FileBackedTasksManager {
 
+    public static final String KEY_TASKS = "tasks";
+    public static final String KEY_SUBTASKS = "subtasks";
+    public static final String KEY_EPICS = "epics";
+    public static final String KEY_HISTORY = "history";
     private KVTaskClient client;
     private Gson gson;
 
@@ -21,15 +25,19 @@ public class HTTPTaskManager extends FileBackedTasksManager {
                 .create();
     }
 
+    public KVTaskClient getClient() {
+        return client;
+    }
+
     public void save() {
         String json = gson.toJson(getTasks());
-        client.put("tasks", json);
+        client.put(KEY_TASKS, json);
         json = gson.toJson(getSubTasks());
-        client.put("subtasks", json);
+        client.put(KEY_SUBTASKS, json);
         json = gson.toJson(getEpics());
-        client.put("epics", json);
+        client.put(KEY_EPICS, json);
         json = gson.toJson(Managers.getDefaultHistory().getHistory());
-        client.put("history", json);
+        client.put(KEY_HISTORY, json);
     }
 
     public void load() {
@@ -37,25 +45,25 @@ public class HTTPTaskManager extends FileBackedTasksManager {
         deleteTasks();
         deleteSubTasks();
         deleteEpics();
-        JsonArray jsonArray = parserJson("tasks");
+        JsonArray jsonArray = parserJson(KEY_TASKS);
         if (jsonArray != null) {
             for (JsonElement element : jsonArray) {
                 updateTask(gson.fromJson(element, Task.class));
             }
         }
-        jsonArray = parserJson("subtasks");
+        jsonArray = parserJson(KEY_SUBTASKS);
         if (jsonArray != null) {
             for (JsonElement element : jsonArray) {
                 updateSubTask(gson.fromJson(element, SubTask.class));
             }
         }
-        jsonArray = parserJson("epics");
+        jsonArray = parserJson(KEY_EPICS);
         if (jsonArray != null) {
             for (JsonElement element : jsonArray) {
                 updateEpic(gson.fromJson(element, Epic.class));
             }
         }
-        jsonArray = parserJson("history");
+        jsonArray = parserJson(KEY_HISTORY);
         if (jsonArray != null) {
             for (JsonElement element : jsonArray) {
                 history.add(gson.fromJson(element, Task.class));

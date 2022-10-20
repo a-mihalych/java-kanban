@@ -5,7 +5,6 @@ import model.SubTask;
 import model.Task;
 
 import java.util.Collection;
-import java.util.Map;
 
 public interface TaskManager {
 

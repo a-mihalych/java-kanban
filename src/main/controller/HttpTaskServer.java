@@ -14,6 +14,8 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpTaskServer {
     public static final int PORT = 8080;
@@ -28,7 +30,6 @@ public class HttpTaskServer {
         fileBackedTasksManager = FileBackedTasksManager.loadFromFile(Managers.PATH_FILE);
         gson = new GsonBuilder()
                 .setPrettyPrinting()
-                .serializeNulls()
                 .registerTypeAdapter(LocalDateTime.class, new TypeAdapterForLocalDateTime())
                 .create();
         httpServer = HttpServer.create();
@@ -50,12 +51,15 @@ public class HttpTaskServer {
             if ("POST".equals(method) && body.isBlank()) {
                 endPoint += "falsebody";
             }
+            Task task;
             SubTask subTask;
+            Epic epic;
             switch(endPoint) {
                 case "GETtasks":
-                    response = gson.toJson(fileBackedTasksManager.getTasks());
-                    response += gson.toJson(fileBackedTasksManager.getSubTasks());
-                    response += gson.toJson(fileBackedTasksManager.getEpics());
+                    List<Task> tasks = new ArrayList<>(fileBackedTasksManager.getTasks());
+                    tasks.addAll(fileBackedTasksManager.getSubTasks());
+                    tasks.addAll(fileBackedTasksManager.getEpics());
+                    response = gson.toJson(tasks);
                     rCode = 200;
                     break;
                 case "GETtask":
@@ -63,10 +67,11 @@ public class HttpTaskServer {
                     rCode = 200;
                     break;
                 case "GETtaskid":
-                    response = gson.toJson(fileBackedTasksManager.getTask(id));
-                    rCode = 200;
-                    if (response == null) {
-                        response = "id=" + id + ", не найден.";
+                    task = fileBackedTasksManager.getTask(id);
+                    if (task != null) {
+                        response = gson.toJson(task);
+                        rCode = 200;
+                    } else {
                         rCode = 404;
                     }
                     break;
@@ -75,10 +80,11 @@ public class HttpTaskServer {
                     rCode = 200;
                     break;
                 case "GETsubtaskid":
-                    response = gson.toJson(fileBackedTasksManager.getSubTask(id));
-                    rCode = 200;
-                    if (response == null) {
-                        response = "id=" + id + ", не найден.";
+                    subTask = fileBackedTasksManager.getSubTask(id);
+                    if (subTask != null) {
+                        response = gson.toJson(subTask);
+                        rCode = 200;
+                    } else {
                         rCode = 404;
                     }
                     break;
@@ -87,10 +93,11 @@ public class HttpTaskServer {
                     rCode = 200;
                     break;
                 case "GETepicid":
-                    response = gson.toJson(fileBackedTasksManager.getEpic(id));
-                    rCode = 200;
-                    if (response == null) {
-                        response = "id=" + id + ", не найден.";
+                    epic = fileBackedTasksManager.getEpic(id);
+                    if (epic != null) {
+                        response = gson.toJson(epic);
+                        rCode = 200;
+                    } else {
                         rCode = 404;
                     }
                     break;
@@ -99,7 +106,7 @@ public class HttpTaskServer {
                     rCode = 200;
                     break;
                 case "POSTtask":
-                    Task task = gson.fromJson(body, Task.class);
+                    task = gson.fromJson(body, Task.class);
                     if (task.getId() == 0) {
                         fileBackedTasksManager.createTask(task);
                     } else {
@@ -118,7 +125,7 @@ public class HttpTaskServer {
                     rCode = 201;
                     break;
                 case "POSTepic":
-                    Epic epic = gson.fromJson(body, Epic.class);
+                    epic = gson.fromJson(body, Epic.class);
                     if (epic.getId() == 0) {
                         fileBackedTasksManager.createEpic(epic);
                     } else {
@@ -158,14 +165,9 @@ public class HttpTaskServer {
                     break;
                 default:
                     System.out.println("Сервер не распознанный запрос: " + method + ":" + httpExchange.getRequestURI());
-                    response = "Запрос не распознан!";
                     rCode = 400;
             }
-            if (rCode >= 400) {
-                httpExchange.getResponseHeaders().add("Content-Type", "text/plain");
-            } else {
-                httpExchange.getResponseHeaders().add("Content-Type", "application/json");
-            }
+            httpExchange.getResponseHeaders().add("Content-Type", "application/json");
             httpExchange.sendResponseHeaders(rCode, lengthResponse);
             if (lengthResponse != -1) {
                 try (OutputStream os = httpExchange.getResponseBody()) {

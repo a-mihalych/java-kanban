@@ -14,7 +14,6 @@ public class KVTaskClient {
     public KVTaskClient(String path) {
         this.path = path;
         URI uri = URI.create(path + "/register");
-        HttpClient.newHttpClient().version();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
@@ -26,8 +25,8 @@ public class KVTaskClient {
         try {
             HttpResponse<String> response = httpClient.send(request, handler);
             API_TOKEN = response.body();
+            System.out.println("API_TOKEN получен");
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             System.out.println("API_TOKEN не получен, нужно зарегистрироваться повторно");
         }
     }

@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c197e69d-40b2-4a56-a318-6241a9bc3c27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/main/controller/HTTPTaskManagerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/main/controller/HttpTaskServerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/controller/HttpTaskServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/HttpTaskServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Managers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Managers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/KVTaskClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/KVTaskClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/TaskManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/resources/tasks.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/tasks.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,14 +94,7 @@
       <command value="h" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="java-kanban" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.All in java-kanban">
     <configuration name="All in java-kanban" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <option name="PACKAGE_NAME" value="" />
@@ -108,7 +103,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileBackedTasksManagerTest,getTaskCollectionNotNull and 1 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HttpTaskServerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
@@ -117,18 +112,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.TaskManagerTest" />
-      <option name="METHOD_NAME" value="getTaskCollectionNotNull" />
-      <option name="TEST_OBJECT" value="pattern" />
-      <patterns>
-        <pattern testClass="controller.FileBackedTasksManagerTest,getTaskCollectionNotNull" />
-        <pattern testClass="controller.InMemoryTaskManagerTest,getTaskCollectionNotNull" />
-      </patterns>
+      <option name="MAIN_CLASS_NAME" value="controller.HttpTaskServerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileBackedTasksManagerTest.loadFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HttpTaskServerTest.deleteEpicidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
@@ -136,25 +126,41 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="controller.manager" />
-      <option name="MAIN_CLASS_NAME" value="controller.manager.FileBackedTasksManagerTest" />
-      <option name="METHOD_NAME" value="loadFromFile" />
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.HttpTaskServerTest" />
+      <option name="METHOD_NAME" value="deleteEpicidTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskTest.isIntersectionTasks" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HttpTaskServerTest.deleteSubtaskidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="model.*" />
+          <option name="PATTERN" value="controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="model" />
-      <option name="MAIN_CLASS_NAME" value="model.TaskTest" />
-      <option name="METHOD_NAME" value="isIntersectionTasks" />
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.HttpTaskServerTest" />
+      <option name="METHOD_NAME" value="deleteSubtaskidTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HttpTaskServerTest.deleteTaskidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="java-kanban" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.HttpTaskServerTest" />
+      <option name="METHOD_NAME" value="deleteTaskidTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -162,11 +168,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.All in java-kanban" />
-        <item itemvalue="JUnit.FileBackedTasksManagerTest,getTaskCollectionNotNull and 1 more" />
-        <item itemvalue="JUnit.FileBackedTasksManagerTest,getTaskCollectionNotNull and 1 more" />
-        <item itemvalue="JUnit.FileBackedTasksManagerTest.loadFromFile" />
+        <item itemvalue="JUnit.HttpTaskServerTest" />
+        <item itemvalue="JUnit.HttpTaskServerTest.deleteEpicidTest" />
+        <item itemvalue="JUnit.HttpTaskServerTest.deleteSubtaskidTest" />
+        <item itemvalue="JUnit.HttpTaskServerTest.deleteTaskidTest" />
       </list>
     </recent_temporary>
   </component>
@@ -271,7 +277,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/java_kanban$All_in_java_kanban.ic" NAME="All in java-kanban Coverage Results" MODIFIED="1665569743300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/java_kanban$All_in_java_kanban.ic" NAME="All in java-kanban Coverage Results" MODIFIED="1666225019964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/java_kanban$FileBackedTasksManagerTest_getTaskCollectionNotNull_and_1_more.ic" NAME="FileBackedTasksManagerTest,getTaskCollectionNotNull and 1 more Coverage Results" MODIFIED="1665609015559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>controller.*</FILTER>
     </SUITE>

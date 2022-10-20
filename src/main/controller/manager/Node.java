@@ -1,4 +1,4 @@
-package controller;
+package controller.manager;
 
 public class Node<T> {
 

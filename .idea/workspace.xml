@@ -2,14 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c197e69d-40b2-4a56-a318-6241a9bc3c27" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/HTTPTaskManagerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/main/controller/HttpTaskServerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/HttpTaskServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/HttpTaskServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/KVTaskClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/KVTaskClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/TaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/resources/tasks.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/resources/tasks.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/FileBackedTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/FileBackedTasksManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/HTTPTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/HTTPTaskManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/HistoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/interfaces/HistoryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/HttpTaskServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/server/HttpTaskServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/InMemoryHistoryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/InMemoryHistoryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/InMemoryTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/InMemoryTaskManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/server/KVServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/KVTaskClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/client/KVTaskClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/ManagerSaveException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/exception/ManagerSaveException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/Managers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/Managers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/manager/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/interfaces/TaskManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/controller/TypeAdapterForLocalDateTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/adapter/TypeAdapterForLocalDateTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/FileBackedTasksManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/FileBackedTasksManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/HTTPTaskManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/HTTPTaskManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/HttpTaskServerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/HttpTaskServerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/InMemoryHistoryManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/InMemoryHistoryManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/InMemoryTaskManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/InMemoryTaskManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/main/controller/TaskManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/main/controller/TaskManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +93,7 @@
       <recent name="H:\java\progi\yandex\java-kanban2\java-kanban\src\main" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="controller.interfaces" />
       <recent name="controller" />
       <recent name="controller.manager.interfase" />
       <recent name="controller.manager" />
@@ -107,7 +120,7 @@
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="controller.interfaces.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,7 +135,7 @@
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="controller.interfaces.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -138,7 +151,7 @@
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="controller.interfaces.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -154,7 +167,7 @@
       <module name="java-kanban" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="controller.*" />
+          <option name="PATTERN" value="controller.interfaces.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>

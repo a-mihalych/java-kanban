@@ -1,4 +1,8 @@
-package controller;
+package controller.manager;
+
+import controller.server.KVServer;
+import controller.interfaces.HistoryManager;
+import controller.interfaces.TaskManager;
 
 import java.io.File;
 

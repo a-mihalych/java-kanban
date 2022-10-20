@@ -1,5 +1,6 @@
-package controller;
+package controller.manager;
 
+import controller.interfaces.HistoryManager;
 import model.Task;
 
 import java.util.ArrayList;

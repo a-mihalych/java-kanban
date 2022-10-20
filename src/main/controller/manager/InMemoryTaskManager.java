@@ -1,5 +1,6 @@
-package controller;
+package controller.manager;
 
+import controller.interfaces.TaskManager;
 import model.Epic;
 import model.Status;
 import model.SubTask;

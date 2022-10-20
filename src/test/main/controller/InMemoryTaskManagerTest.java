@@ -1,5 +1,6 @@
 package controller;
 
+import controller.manager.InMemoryTaskManager;
 import model.Epic;
 import model.Status;
 import model.SubTask;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
     public InMemoryTaskManagerTest() {
-        super((InMemoryTaskManager) Managers.getDefaultTask());
+        super(new InMemoryTaskManager());
     }
 
     @Override

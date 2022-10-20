@@ -1,4 +1,4 @@
-package controller;
+package controller.client;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,8 +24,12 @@ public class KVTaskClient {
         HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
         try {
             HttpResponse<String> response = httpClient.send(request, handler);
-            API_TOKEN = response.body();
-            System.out.println("API_TOKEN получен");
+            if (response.statusCode() == 200) {
+                API_TOKEN = response.body();
+                System.out.println("API_TOKEN получен");
+            } else {
+                System.out.println("API_TOKEN не получен, нужно зарегистрироваться повторно");
+            }
         } catch (IOException | InterruptedException e) {
             System.out.println("API_TOKEN не получен, нужно зарегистрироваться повторно");
         }
@@ -44,6 +48,11 @@ public class KVTaskClient {
         HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
         try {
             HttpResponse<String> response = httpClient.send(request, handler);
+            if (response.statusCode() == 200) {
+                System.out.println("Операция сохранения завершилась успешно");
+            } else {
+                System.out.println("Сохранение было прервано. Попробуйте ещй раз.");
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             System.out.println("Сохранение было прервано. Попробуйте ещй раз.");
@@ -63,6 +72,11 @@ public class KVTaskClient {
         HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
         try {
             HttpResponse<String> response = httpClient.send(request, handler);
+            if (response.statusCode() == 200) {
+                System.out.println("Значения получены.");
+            } else {
+                System.out.println("Получение значения было прервано. Попробуйте ещй раз.");
+            }
             return response.body();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

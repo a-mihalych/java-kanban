@@ -1,5 +1,8 @@
-package controller;
+package controller.manager;
 
+import controller.exception.ManagerSaveException;
+import controller.interfaces.HistoryManager;
+import controller.interfaces.TaskManager;
 import model.*;
 
 import java.io.File;
@@ -99,7 +102,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         return fileBackedTasksManager;
     }
 
-    private void save() {
+    protected void save() {
         String headFile = "id,type,name,status,description,startTime,duration,epic\n";
         StringBuilder stringForFile = new StringBuilder(headFile);
         for(Task task : getTasks()) {

@@ -1,5 +1,7 @@
 package controller;
 
+import controller.interfaces.HistoryManager;
+import controller.manager.InMemoryHistoryManager;
 import model.Status;
 import model.Task;
 import org.junit.jupiter.api.BeforeEach;
